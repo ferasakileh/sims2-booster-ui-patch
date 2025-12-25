@@ -74,3 +74,8 @@ add some files into the `tests/gamefiles` folder:
 To run all tests from the command line:
 
     python -m unittest discover ./tests/
+
+Optionally, you can use `pytest` as a test runner (useful for IDE integrations):
+
+    pip install -r requirements-dev.txt
+    pytest

@@ -114,3 +114,22 @@ class UIScriptTest(BaseTestCase):
         result = patches._upscale_uiscript(entry)
         expected = b"# Test\r\n<LEGACY iid=IGZWinGen area=(10,20,30,40) >\r\n<LEGACY iid=IGZWinText caption=\"Needs\" font=GenHeader >\r\n"
         self.assertEqual(result, expected, "UI script was not upscaled as expected")
+
+    def test_uiscript_upscaled_1080p_preset(self):
+        """Test UI scripts upscale correctly with the 1080p-friendly (1.35x) preset"""
+        entry = Entry(io.BytesIO())
+        entry.type_id = dbpf.TYPE_UI_DATA
+        entry.group_id = 0xa99d8a11
+        entry.instance_id = 0x49064905
+        entry.data = b"# Test\r\n<LEGACY iid=IGZWinGen area=(5,10,15,20) >\r\n"
+
+        old_multiplier = patches.UI_MULTIPLIER
+        try:
+            patches.UI_MULTIPLIER = 1.35
+            result = patches._upscale_uiscript(entry)
+        finally:
+            patches.UI_MULTIPLIER = old_multiplier
+
+        # Note: scaling uses int(int(p) * UI_MULTIPLIER), so values are truncated.
+        expected = b"# Test\r\n<LEGACY iid=IGZWinGen area=(6,13,20,27) >\r\n"
+        self.assertEqual(result, expected, "1080p preset scaling was not applied as expected")

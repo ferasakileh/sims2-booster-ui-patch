@@ -71,6 +71,9 @@ PROJECT_URL = "https://github.com/lah7/sims2-4k-ui-patch"
 LABELS_UI_SCALE = {
     "200% | 4K / 2160p": 2.0,
     "150% | 2K / 1440p (Experimental)": 1.5,
+
+    # 1080p-friendly: slight UI enlargement while keeping assets sharp and reducing layout artifacts
+    "135% | 1080p / FHD (1080p_medium)": 1.35,
 }
 
 LABELS_UI_FILTER = {
